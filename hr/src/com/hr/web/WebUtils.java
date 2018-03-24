@@ -51,11 +51,4 @@ public class WebUtils {
 		return list;
 	}
 
-	public static byte selectMenu() {
-		System.out.println("Menu");
-		System.out.println("1 = withdrawal, 2 = check, 3 = transfer");
-		Scanner scan = new Scanner(System.in);
-		Byte menu = scan.nextByte();
-		return menu;
-	}
 }
