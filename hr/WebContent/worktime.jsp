@@ -96,10 +96,13 @@
 			<td><%= mapEmp.get("Timein") %></td>
 			<td><%= mapEmp.get("Timeout") %></td>
 			<td>
-				<%=maptimestamp.get("Time_in") %>
+				<%=maptimestamp.get("time_in") %>
 			</td>
 			<td>
-				<%=maptimestamp.get("Time_out") %>
+				<%=maptimestamp.get("time_out") %>
+				<%
+				
+				%>
 			</td>
 			<td>				
 						
@@ -117,6 +120,7 @@
 	    }
 		%>
 	</table>
-
+	<br>
+	<button><a onclick="window.location='./main.jsp'"> Back </a></button>	
 </body>
 </html>

@@ -50,5 +50,13 @@ public class WebUtils {
 		}
 		return list;
 	}
+	
+	public static String nullToSpace(Object value) {
+		if(value == null) {
+			return "";
+		}else {
+			return value.toString();
+		}
+	}
 
 }

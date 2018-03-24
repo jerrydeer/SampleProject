@@ -19,6 +19,7 @@ Map<String, Object> mapEmp = empServices.getEmployeeData(id);
 
 out.println("<h2>" + mapEmp.get("Firstname") + " " + mapEmp.get("Lastname") + "</h2>");
 %>
+<a href="work.jsp?ID=<%= id %>&actions=create">เพิ่มข้อมูล</a>
 	<table border=1>
 		<tr>
 			<th>ปี</th>
@@ -36,7 +37,7 @@ for(int i = 0; i < listdate.size(); i++)
 			<td><%= map.get("year") %></td>
 			<td><%= map.get("month") %></td>
 			<td>
-				<a href="worktime.jsp?ID=<%= id %>&month=<%= map.get("month") %>&year=<%= map.get("year") %>">แก้ใข</a>
+				<a href="work.jsp?ID=<%= id %>&month=<%= map.get("month") %>&year=<%= map.get("year") %>&actions=edit">แก้ใข</a>
 				/
 				<a href="workdelete.jsp?ID=<%= id %>&month=<%= map.get("month") %>&year=<%= map.get("year") %>">ลบ</a>
 			</td>
@@ -44,6 +45,8 @@ for(int i = 0; i < listdate.size(); i++)
 <%
 }
 %>		
-	</table>		
+	</table>
+	<br>
+	<button><a onclick="window.location='./main.jsp'"> Back </a></button>	
 </body>
 </html>
