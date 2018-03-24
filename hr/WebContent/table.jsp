@@ -23,7 +23,7 @@ out.println("<h2>" + mapEmp.get("Firstname") + " " + mapEmp.get("Lastname") + "<
 		<tr>
 			<th>ปี</th>
 			<th>เดือน</th>
-			<th>แก้ใข</th>
+			<th>แก้ใข / ลบ</th>
 		</tr>
 <%
 String selectdate = "SELECT DISTINCT month, year FROM time WHERE UID = '"+id+"' ORDER BY year DESC, month DESC ";
@@ -35,7 +35,11 @@ for(int i = 0; i < listdate.size(); i++)
 		<tr>
 			<td><%= map.get("year") %></td>
 			<td><%= map.get("month") %></td>
-			<td><a href="worktime.jsp?ID=<%= id %>&month=<%= map.get("month") %>&year=<%= map.get("year") %>">Table</a></td>
+			<td>
+				<a href="worktime.jsp?ID=<%= id %>&month=<%= map.get("month") %>&year=<%= map.get("year") %>">แก้ใข</a>
+				/
+				<a href="workdelete.jsp?ID=<%= id %>&month=<%= map.get("month") %>&year=<%= map.get("year") %>">ลบ</a>
+			</td>
 		</tr>
 <%
 }
