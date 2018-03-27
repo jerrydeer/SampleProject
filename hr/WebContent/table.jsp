@@ -11,28 +11,34 @@
 <title>Table</title>
 </head>
 <body>
-<% 
-int id = Integer.parseInt(request.getParameter("ID")); 
-
-EmployeeServices empServices = new EmployeeServices();
-Map<String, Object> mapEmp = empServices.getEmployeeData(id);
-
-out.println("<h2>" + mapEmp.get("Firstname") + " " + mapEmp.get("Lastname") + "</h2>");
-%>
-<a href="work.jsp?ID=<%= id %>&actions=create">เพิ่มข้อมูล</a>
+	<% 
+	Object strUserID = session.getAttribute("sUserID");
+	if(strUserID == null)
+	{
+		response.sendRedirect("index.jsp");
+	}
+	
+	int id = Integer.parseInt(request.getParameter("ID")); 
+	
+	EmployeeServices empServices = new EmployeeServices();
+	Map<String, Object> mapEmp = empServices.getEmployeeData(id);
+	
+	out.println("<h2>" + mapEmp.get("Firstname") + " " + mapEmp.get("Lastname") + "</h2>");
+	%>
+	<a href="work.jsp?ID=<%= id %>&actions=create">+เพิ่มข้อมูล</a>
 	<table border=1>
 		<tr>
 			<th>ปี</th>
 			<th>เดือน</th>
 			<th>แก้ใข / ลบ</th>
 		</tr>
-<%
-String selectdate = "SELECT DISTINCT month, year FROM time WHERE UID = '"+id+"' ORDER BY year DESC, month DESC ";
-List<Map<String, Object>> listdate = WebUtils.query(selectdate);
-for(int i = 0; i < listdate.size(); i++)
-{
-	Map<String, Object> map = listdate.get(i);
-%>		
+	<%
+	String selectdate = "SELECT DISTINCT month, year FROM time WHERE UID = '"+id+"' ORDER BY year DESC, month DESC ";
+	List<Map<String, Object>> listdate = WebUtils.query(selectdate);
+	for(int i = 0; i < listdate.size(); i++)
+	{
+		Map<String, Object> map = listdate.get(i);
+	%>		
 		<tr>
 			<td><%= map.get("year") %></td>
 			<td><%= map.get("month") %></td>
@@ -42,11 +48,11 @@ for(int i = 0; i < listdate.size(); i++)
 				<a href="workdelete.jsp?ID=<%= id %>&month=<%= map.get("month") %>&year=<%= map.get("year") %>">ลบ</a>
 			</td>
 		</tr>
-<%
-}
-%>		
+	<%
+	}
+	%>		
 	</table>
 	<br>
-	<button><a onclick="window.location='./main.jsp'"> Back </a></button>	
+	<button><a onclick="window.location='./main.jsp'"> กลับ </a></button>	
 </body>
 </html>

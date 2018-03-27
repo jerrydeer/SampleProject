@@ -10,6 +10,12 @@
 </head>
 <body>
 	<%
+	Object strUserID = session.getAttribute("sUserID");
+	if(strUserID == null)
+	{
+		response.sendRedirect("index.jsp");
+	}
+	
 	int id = request.getParameter("ID") == null ? 0 : Integer.parseInt(request.getParameter("ID"));	
 	EmployeeServices empServices = new EmployeeServices();
 		
@@ -93,7 +99,7 @@
 						Map<String, Object> rankMap = rankList.get(i);
 						
 						Integer rankId = (Integer) rankMap.get("ID"); //Integer = int
-						String rankName = (String) rankMap.get("Rankname");
+						String rankName = (String) rankMap.get("rankname");
 						String selected = rankId.equals(mapEmp.get("Rank")) ? "selected" : "";
 						%>
 						<option value="<%=rankId%>" <%=selected%> ><%=rankName%></option>

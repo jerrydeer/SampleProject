@@ -9,10 +9,14 @@
 <title>Insert title here</title>
 </head>
 <body>
-
 	<%
-	if("edit".equals(request.getParameter("action")))	{
-		
+	Object strUserID = session.getAttribute("sUserID");
+	if(strUserID == null)
+	{
+		response.sendRedirect("index.jsp");
+	}
+	
+	if("edit".equals(request.getParameter("action"))){		
 		EmployeeServices.insert(request);
 		String redirectURL = "./main.jsp";
 	    response.sendRedirect(redirectURL);
@@ -20,9 +24,7 @@
 		return;
 	}	
 	%>
-
-	<h2>Employee List : </h2>
-	
+	<h2>Employee List : </h2>	
 	<form method="POST" action="insert.jsp">
 		<input type="hidden" name="action" value="edit" />
 		
@@ -66,12 +68,10 @@
 			<tr>
 				<td>Post Code: </td>
 				<td><input type="text" name="postcode"></td>
-			</tr>														
-			
+			</tr>																	
 			<tr>
 			<td><u>Detail</u></td>
-			</tr>
-		
+			</tr>		
 			<tr>
 				<td>Rank: </td>
 				
@@ -85,16 +85,15 @@
 						Map<String, Object> rankMap = rankList.get(i);
 						
 						Integer rankId = (Integer) rankMap.get("ID"); //Integer = int
-						String rankName = (String) rankMap.get("Rankname");
+						String rankName = (String) rankMap.get("rankname");
 						%>
 						<option value="<%=rankId%>"><%=rankName%></option>
 						<%
 					}
 				%>
 				</select>
-				</td>
-				
-			</tr>
+				</td>				
+			</tr>			
 			<tr>
 				<td>Salary: </td>
 				<td><input type="number" name="salary"/></td>
@@ -118,12 +117,10 @@
 				<input type="checkbox" name="work_sat">Sat<br>
 				<input type="checkbox" name="work_sun">Sun<br>
 				</td>
-			</tr>
-	 		 
+			</tr>	 		 
 		</table>
-		<input type="submit" name="submit" value="Create User">
-		<input type="button" name="BackButton" value="Back" onclick="window.location='./main.jsp'">
+		<input type="submit" name="submit" value="สร้างข้อมูลพนักงาน">
+		<input type="button" name="BackButton" value="กลับ" onclick="window.location='./main.jsp'">
 	</form>
-
 </body>
 </html>

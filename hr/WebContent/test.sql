@@ -1,1 +1,0 @@
-INSERT INTO time(ID,UID,year,day,month,time_in,time_out,actual_in,actual_out,holiday,business_leave,sick_leave,leave)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);

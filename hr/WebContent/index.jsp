@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"    pageEncoding="utf-8"%>
 <%@page import="java.sql.*" %>
-<%@page import="java.util.Date" %> 
-<%@page import="java.text.DateFormat" %>
-<%@page import="java.text.SimpleDateFormat" %>  
+<%@page import="java.util.Date" %>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,9 +9,6 @@
 </head>
 <body>
 <%
-SimpleDateFormat hms = new SimpleDateFormat("HH:mm:ss");
-out.println(hms.format(new Date()) + "<br>");
-
 Connection connect = DriverManager.getConnection("jdbc:mysql://localhost/hr" +
 		"?user=root&password=password");
 Statement s = connect.createStatement(); 
@@ -22,8 +17,7 @@ if(request.getParameter("Action") != null)
 {
 
 	try {
-		Class.forName("com.mysql.jdbc.Driver");
-		
+		//Class.forName("com.mysql.jdbc.Driver");		
 		connect =  DriverManager.getConnection("jdbc:mysql://localhost/hr" +
 				"?user=root&password=password");
 		
@@ -67,19 +61,19 @@ if(request.getParameter("Action") != null)
 }
 	
 %>
-<form name="frmLogin" method="post" action="index.jsp?Action=Login">
+<form name="frmLogin" method="POST" action="index.jsp?Action=Login">
 	Login<br>
 	<table border="1" style="width: 300px">
 		<tbody>
 		<tr>
 			<td> &nbsp;Username</td>
 			<td>
-			<input name="txtUsername" type="text" id="txtUsername">
+			<input name="txtUsername" type="text">
 			</td>
 		</tr>
 		<tr>
 			<td> &nbsp;Password</td>
-			<td><input name="txtPassword" type="password" id="txtPassword">
+			<td><input name="txtPassword" type="password">
 			</td>
 		</tr>
 		</tbody>

@@ -10,19 +10,17 @@
 </head>
 <body>
 	<%
-	/*
-	int id = 0;
-	Object idParam = request.getParameter("ID");
-	if(idParam != null) {
-		id = Integer.parseInt(idParam.toString());
-	}*/
+	Object strUserID = session.getAttribute("sUserID");
+	if(strUserID == null)
+	{
+		response.sendRedirect("index.jsp");
+	}
+	
 	int id = request.getParameter("ID") == null ? 0 : Integer.parseInt(request.getParameter("ID"));	
 	EmployeeServices empServices = new EmployeeServices();
 		
 	if("edit".equals(request.getParameter("action")))	
-	{
-		//request.getParameter("action").equals("edit")
-		//"edit".equals(request.getParameter("action")				
+	{			
 		empServices.updateEmployee(request, id);
 		String redirectURL = "./main.jsp";
 	    response.sendRedirect(redirectURL);
@@ -30,8 +28,7 @@
 	}
 	
 	Map<String, Object> mapEmp = empServices.getEmployeeData(id);
-	List<Map<String, Object>> rankList = empServices.getRanks();
-	
+	List<Map<String, Object>> rankList = empServices.getRanks();	
 	%>
 	<h2>Employee List : </h2>
 	
@@ -95,7 +92,7 @@
 						Map<String, Object> rankMap = rankList.get(i);
 						
 						Integer rankId = (Integer) rankMap.get("ID"); //Integer = int
-						String rankName = (String) rankMap.get("Rankname");
+						String rankName = (String) rankMap.get("rankname");
 						String selected = rankId.equals(mapEmp.get("Rank")) ? "selected" : "";
 						%>
 						<option value="<%=rankId%>" <%=selected%> ><%=rankName%></option>

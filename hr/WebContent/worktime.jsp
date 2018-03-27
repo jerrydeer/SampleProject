@@ -34,7 +34,6 @@
 	int year = WebUtils.parseInt(request.getParameter("year"));
 	int month = WebUtils.parseInt(request.getParameter("month"));
 	List<Map<String, Object>> timeList = empServices.getTimeList(year, month, id);
-	List<Map<String, Object>> timeStampList = empServices.getTime(id, month, year);	
 	
 	out.println( year );
 	%>		
@@ -81,8 +80,8 @@
 		    }
 		    
 			Map<String, Object> maptimestamp = new HashMap();
-			for(int j = 0; j < timeStampList.size(); j++){
-				Map<String, Object> map = timeStampList.get(j);
+			for(int j = 0; j < timeList.size(); j++){
+				Map<String, Object> map = timeList.get(j);
 				if(day == (int) map.get("day")){
 					maptimestamp = map;
 					break;
