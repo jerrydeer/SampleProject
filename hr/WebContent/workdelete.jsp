@@ -39,7 +39,7 @@
 	out.println( year );
 	%>		
 
-	Check-in : &nbsp; Name:(<%= mapEmp.get("Firstname") %>) &nbsp; Month:(<%= month %>) &nbsp; Year:(<% out.println( year );%>)
+	Check-in : &nbsp; Name:(<%= mapEmp.get("firstname") %>) &nbsp; Month:(<%= month %>) &nbsp; Year:(<% out.println( year );%>)
 	<table border="1" width="100%">
 		<tr>
 			<th>วันที่</th>
@@ -93,13 +93,13 @@
 		<tr>
 			<td><% out.println(i+1); %></td>
 			<td><% out.println( datename.format(cal.getTime()) ); %></td>
-			<td><%= mapEmp.get("Timein") %></td>
-			<td><%= mapEmp.get("Timeout") %></td>
+			<td><%= mapEmp.get("timein") %></td>
+			<td><%= mapEmp.get("timeout") %></td>
 			<td>
-				<%=maptimestamp.get("Time_in") %>
+				<%=maptimestamp.get("time_in") %>
 			</td>
 			<td>
-				<%=maptimestamp.get("Time_out") %>
+				<%=maptimestamp.get("time_out") %>
 			</td>
 			<td>				
 						

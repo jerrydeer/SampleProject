@@ -27,8 +27,8 @@ if(request.getParameter("Action") != null)
 		s = connect.createStatement();
 		
 		String sql = "SELECT * FROM  employee_user WHERE " +
-		" Username = '" + username + "' AND " + 
-		" Password = '" + password + "' ";
+		" username = '" + username + "' AND " + 
+		" password = '" + password + "' ";
 		
 		ResultSet rec = s.executeQuery(sql);
 		

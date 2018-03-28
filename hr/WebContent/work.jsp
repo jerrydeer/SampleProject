@@ -39,9 +39,9 @@
 	int year = WebUtils.parseInt(request.getParameter("year"));
 	int month = WebUtils.parseInt(request.getParameter("month"));
 	EmployeeServices empServices = new EmployeeServices();	
-	Map<String, Object> mapEmp = empServices.getEmployeeData(id);
-	
+	Map<String, Object> mapEmp = empServices.getEmployeeData(id);	
 	List<Map<String, Object>> timeList = null;
+	
 	if(actions.equals("create")){								
 		
 	}else if(actions.equals("edit")){
@@ -51,38 +51,31 @@
 			return;
 		}
 		timeList = empServices.getTimeList(year, month, id);		// if submit do insert
-
 	}
-
 	if(year == 0 || month == 0){									// if year,month = 0 (create)
 		Date date = new Date();
 		year = date.getYear()+1900+543;
 		month = date.getMonth()+1;
-
-	}
-	
+	}	
 	if(request.getMethod().equals("POST")){							// if POST (submit) do insert
 		empServices.createTimeWork(request);
 	}
-
 	String disable = "";	
 	String created = "";
 	String qwork = "SELECT DISTINCT month,year FROM time WHERE uid = '"+id+"'";
 	List<Map<String, Object>> listWork = WebUtils.query(qwork);
 	for(int i = 0; i < listWork.size(); i++){
 		Map<String, Object> map = listWork.get(i);
-		//out.println( map.get("month") );
-		
+		//out.println( map.get("month") );		
 		if( map.get("month").equals( month ) && map.get("year").equals( year ) && actions.equals("create") ){
 			
-			created = "<font color='red'>" + "ข้อมูลพนักงาน " + mapEmp.get("Firstname") + " เดือน " + month + " ปี " + year + " มีอยู่ในระบบแล้ว" + "</font>";
+			created = "<font color='red'>" + "ข้อมูลพนักงาน " + mapEmp.get("firstname") + " เดือน " + month + " ปี " + year + " มีอยู่ในระบบแล้ว" + "</font>";
 			disable = "disabled";
 		}
 	}	
-	%>	
-			
+	%>			
 	<form method="POST" action="" onsubmit="return buttonConfirm()">
-		ลงเวลาการทำงาน <%= mapEmp.get("Firstname") %> &nbsp; เดือน:<input type="text" name="" id="month" value="<%= month %>"> &nbsp; ปี:<input type="text" name="" id="year" value="<%= year %>"> 
+		ลงเวลาการทำงาน <%= mapEmp.get("firstname") %> &nbsp; เดือน:<input type="text" name="" id="month" value="<%= month %>"> &nbsp; ปี:<input type="text" name="" id="year" value="<%= year %>"> 
 		<input type="button" onclick="changeYearMonth()" value="เปลื่ยน" />	
 		<% out.println(created); %>	
 		<table border="1" width="100%">
@@ -117,8 +110,8 @@
 				if( request.getMethod().equals("GET") ){
 									
 					if(actions.equals("create")){
-						mapTable.put("time_in", mapEmp.get("Timein"));
-						mapTable.put("time_out", mapEmp.get("Timeout"));
+						mapTable.put("time_in", mapEmp.get("timein"));
+						mapTable.put("time_out", mapEmp.get("timeout"));
 						
 						mapTable.put("actual_in",  "");
 						mapTable.put("actual_out", "");
@@ -198,7 +191,7 @@
 						if(mapTable.get("actual_in") != ""){
 							Date dateactual_in = timeFormat.parse(actual_in);
 							long diffactual_in = dateactual_in.getTime();					
-							totalin = (diffactual_in - difftime_in) / 1000 / 60;
+							totalin = (difftime_in - diffactual_in) / 1000 / 60;
 							
 							out.println(totalin);
 						}
@@ -217,7 +210,7 @@
 						if(mapTable.get("actual_out") != ""){
 							Date dateactual_out = timeFormat.parse(actual_out);
 							long diffactual_out = dateactual_out.getTime();	
-							totalout = (difftime_out - diffactual_out) / 1000 / 60;
+							totalout = (diffactual_out - difftime_out) / 1000 / 60;
 							
 							out.println(totalout);
 						}
@@ -244,9 +237,9 @@
 		<br />
 		<input type="hidden" name="actions" id="actions" value="<%= actions %>">
 		<input type="hidden" name="year" value="<%= year %>"> 
-		<input type="hidden" name="month" value="<%= month %>"> 
-		<a href="./table.jsp?ID=<%= id %>"> Back </a> &nbsp;
-		<input type="submit" name="submit" value="บันทึก" align="right" <%= disable %> />
+		<input type="hidden" name="month" value="<%= month %>"> 		 
+		<input type="submit" name="submit" value="บันทึก" <%= disable %> />&nbsp;
+		<a href="./table.jsp?ID=<%= id %>"> กลับ </a>
 	</form>	
 
 	<script>

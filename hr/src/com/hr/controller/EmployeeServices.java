@@ -20,7 +20,7 @@ public class EmployeeServices {
 	public void createTimeWork(HttpServletRequest request) throws Exception {
 		Connection conn = WebUtils.getConnection();
 		
-		String create = "INSERT INTO time(UID,year,day,month,time_in,time_out,actual_in,actual_out,holiday,business_leave,sick_leave,absence)VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+		String create = "INSERT INTO time(uid,year,day,month,time_in,time_out,actual_in,actual_out,holiday,business_leave,sick_leave,absence)VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 		int uid = WebUtils.parseInt(request.getParameter("ID"));
 		int year = WebUtils.parseInt(request.getParameter("year"));
 		int month = WebUtils.parseInt(request.getParameter("month"));
@@ -32,7 +32,7 @@ public class EmployeeServices {
 		int maxDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 		SimpleDateFormat sd = new SimpleDateFormat("HH:mm:ss");
 		
-		String delete = "DELETE FROM time WHERE UID = ? AND year = ? AND month = ?";
+		String delete = "DELETE FROM time WHERE uid = ? AND year = ? AND month = ?";
 		PreparedStatement pd = conn.prepareStatement(delete);
 		pd.setInt(1, uid);
 		pd.setInt(2, year);
@@ -100,7 +100,7 @@ public class EmployeeServices {
 	// ctrl + 1 = solve problem
 	// alt + shift + r = change valiable name
 	public Map<String, Object> getEmployeeData(int id) throws Exception {
-		String sql = "SELECT * FROM employee_user WHERE ID = '" + id + "'";
+		String sql = "SELECT * FROM employee_user WHERE id = '" + id + "'";
 		List<Map<String, Object>> list = WebUtils.query(sql);
 		if (list.size() <= 0) {
 			return null;
@@ -140,14 +140,14 @@ public class EmployeeServices {
 		int work_sat = (sat) ? 1 : 0;
 		int work_sun = (sun) ? 1 : 0;
 
-		String update = "UPDATE employee_user SET " + "Firstname='" + fname + "', " + // String
-				"Lastname='" + lname + "', " + // String
-				"Gender='" + gender + "', " + "Birthdate='" + birthdate + "', " + "Address='" + address + "', "
-				+ "Subdistrict='" + subdistrict + "', " + "District='" + district + "', " + "Province='" + province
-				+ "', " + "Postcode='" + postcode + "', " + "Salary='" + salary + "', " + // int
-				"Timein='" + timein + "', " + // String
-				"Timeout='" + timeout + "', " + // String
-				"Rank='" + rank + "', " + // int
+		String update = "UPDATE employee_user SET " + "firstname='" + fname + "', " + // String
+				"lastname='" + lname + "', " + // String
+				"gender='" + gender + "', " + "birthdate='" + birthdate + "', " + "address='" + address + "', "
+				+ "subdistrict='" + subdistrict + "', " + "district='" + district + "', " + "province='" + province
+				+ "', " + "postcode='" + postcode + "', " + "salary='" + salary + "', " + // int
+				"timein='" + timein + "', " + // String
+				"timeout='" + timeout + "', " + // String
+				"rank='" + rank + "', " + // int
 				"work_mon='" + work_mon + "',  " + // int (Set)
 				"work_tue='" + work_tue + "',  " + // int (Set)
 				"work_wed='" + work_wed + "',  " + // int (Set)
@@ -155,7 +155,7 @@ public class EmployeeServices {
 				"work_fri='" + work_fri + "',  " + // int (Set)
 				"work_sat='" + work_sat + "',  " + // int (Set)
 				"work_sun='" + work_sun + "' " + // int (Set)
-				"WHERE ID = '" + id + "' "; //
+				"WHERE id = '" + id + "' "; //
 
 		Statement stmt = conn.createStatement();
 		stmt.execute(update);
@@ -197,7 +197,7 @@ public class EmployeeServices {
 		int work_sun = (sun) ? 1 : 0;
 
 		String insert = "INSERT INTO employee_user "
-				+ "(Firstname, Lastname, Gender, Birthdate, Address, Subdistrict, District, Province, Postcode, Rank, Salary, Timein, Timeout, work_mon, work_tue, work_wed, work_thu, work_fri, work_sat, work_sun) "
+				+ "(firstname, lastname, gender, birthdate, address, subdistrict, district, province, postcode, rank, salary, timein, timeout, work_mon, work_tue, work_wed, work_thu, work_fri, work_sat, work_sun) "
 				+ "VALUES " + "('" + fname + "', '" + lname + "', '" + gender + "', '" + birthdate + "', '" + address
 				+ "', '" + subdistrict + "', '" + district + "', '" + province + "', '" + postcode + "', " + rank + ", "
 				+ salary + ", '" + timein + "', '" + timeout + "', " + work_mon + ", " + work_tue + ", " + work_wed
@@ -212,7 +212,7 @@ public class EmployeeServices {
 		Connection conn = WebUtils.getConnection();
 		try {
 			Statement stmt = conn.createStatement();
-			String sql1 = "DELETE FROM employee_user WHERE ID = '" + id + "' ";
+			String sql1 = "DELETE FROM employee_user WHERE id = '" + id + "' ";
 			stmt.executeUpdate(sql1);
 			conn.close();
 		} catch (Exception ex) {

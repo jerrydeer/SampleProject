@@ -15,8 +15,7 @@
 	{
 		response.sendRedirect("index.jsp");
 	}
-	
-	int id = request.getParameter("ID") == null ? 0 : Integer.parseInt(request.getParameter("ID"));	
+	int id = request.getParameter("ID") == null ? 0 : Integer.parseInt(request.getParameter("ID"));
 	EmployeeServices empServices = new EmployeeServices();
 		
 	if("edit".equals(request.getParameter("action")))	
@@ -30,51 +29,50 @@
 	Map<String, Object> mapEmp = empServices.getEmployeeData(id);
 	List<Map<String, Object>> rankList = empServices.getRanks();	
 	%>
-	<h2>Employee List : </h2>
+	<h2>แก้ใขข้อมูลพนักงาน : <%= mapEmp.get("firstname") %> <%= mapEmp.get("lastname") %></h2>
 	
-	<form method="POST" action="edit.jsp?ID=<%=id%>">
+	<form method="POST" action="edit.jsp?ID=<%=id%>" onsubmit="return buttonConfirm()">
 		<input type="hidden" name="action" value="edit" />
-		
-		<u>Profile</u>
+
 		<table>
 			<tr>
 				<td>First Name: </td>
-				<td><input type="text" name="fname" value="<%= mapEmp.get("Firstname") %>"></td>
+				<td><input type="text" name="fname" value="<%= mapEmp.get("firstname") %>"></td>
 			</tr>
 			<tr>
 				<td>Last Name: </td>
-				<td><input type="text" name="lname" value="<%= mapEmp.get("Lastname") %>"></td>
+				<td><input type="text" name="lname" value="<%= mapEmp.get("lastname") %>"></td>
 			</tr>
 			<tr>
 				<td>Gender: </td>
 				<td>
-				  <input type="radio" name="gender" value="male" <% if("male".equals(mapEmp.get("Gender"))){ %> checked <%} %>> Male<br>
-				  <input type="radio" name="gender" value="female" <% if("female".equals(mapEmp.get("Gender"))){ %> checked <%} %>> Female<br>			
+				  <input type="radio" name="gender" value="male" <% if("male".equals(mapEmp.get("gender"))){ %> checked <%} %>> Male<br>
+				  <input type="radio" name="gender" value="female" <% if("female".equals(mapEmp.get("gender"))){ %> checked <%} %>> Female<br>			
 				</td>
 			</tr>
 			<tr>
 				<td>Birth Date: </td>
-				<td><input type="date" name="birthdate" value="<%= mapEmp.get("Birthdate") %>"></td>
+				<td><input type="date" name="birthdate" value="<%= mapEmp.get("birthdate") %>"></td>
 			</tr>
 			<tr>
 				<td>Address: </td>
-				<td><input type="text" name="address" value="<%= mapEmp.get("Address") %>"></td>
+				<td><input type="text" name="address" value="<%= mapEmp.get("address") %>"></td>
 			</tr>
 			<tr>
 				<td>Sub District: </td>
-				<td><input type="text" name="subdistrict" value="<%= mapEmp.get("Subdistrict") %>"></td>
+				<td><input type="text" name="subdistrict" value="<%= mapEmp.get("subdistrict") %>"></td>
 			</tr>
 			<tr>
-				<td>Distric: </td>
-				<td><input type="text" name="district" value="<%= mapEmp.get("District") %>"></td>
+				<td>District: </td>
+				<td><input type="text" name="district" value="<%= mapEmp.get("district") %>"></td>
 			</tr>
 			<tr>
 				<td>Province: </td>
-				<td><input type="text" name="province" value="<%= mapEmp.get("Province") %>"></td>
+				<td><input type="text" name="province" value="<%= mapEmp.get("province") %>"></td>
 			</tr>
 			<tr>
 				<td>Post Code: </td>
-				<td><input type="text" name="postcode" value="<%= mapEmp.get("Postcode") %>"></td>
+				<td><input type="text" name="postcode" value="<%= mapEmp.get("postcode") %>"></td>
 			</tr>														
 			
 			<tr>
@@ -91,9 +89,9 @@
 					for(int i = 0 ; i < rankSize; i++){
 						Map<String, Object> rankMap = rankList.get(i);
 						
-						Integer rankId = (Integer) rankMap.get("ID"); //Integer = int
+						Integer rankId = (Integer) rankMap.get("id"); //Integer = int
 						String rankName = (String) rankMap.get("rankname");
-						String selected = rankId.equals(mapEmp.get("Rank")) ? "selected" : "";
+						String selected = rankId.equals(mapEmp.get("rank")) ? "selected" : "";
 						%>
 						<option value="<%=rankId%>" <%=selected%> ><%=rankName%></option>
 						<%
@@ -105,15 +103,15 @@
 			</tr>
 			<tr>
 				<td>Salary: </td>
-				<td><input type="number" name="salary" value='<%= mapEmp.get("Salary") %>'/>
+				<td><input type="number" name="salary" value='<%= mapEmp.get("salary") %>'/>
 			</tr>
 			<tr>
 				<td>Time in: </td>
-				<td><input type="time" name="timein" value='<%= mapEmp.get("Timein") %>'></td>
+				<td><input type="time" name="timein" value='<%= mapEmp.get("timein") %>'></td>
 			</tr>
 			<tr>
 				<td>Time out: </td>
-				<td><input type="time" name="timeout" value='<%= mapEmp.get("Timeout") %>'></td>
+				<td><input type="time" name="timeout" value='<%= mapEmp.get("timeout") %>'></td>
 			</tr>
 			<tr>
 				<td>Day Work: </td>
@@ -130,8 +128,15 @@
 	 		 
 		</table>
 		<input type="hidden" name="hidden" value="<%= id %>">
-		<input type="submit" name="submit" value="Edit">
-		<input type="button" name="BackButton" value="Back" onclick="window.location='./main.jsp'">
+		<input type="submit" name="submit" value="บันทึก">
+		<input type="button" name="BackButton" value="กลับ" onclick="window.location='./main.jsp'">
 	</form>
+	
+	<script>
+	function buttonConfirm() {
+	    return confirm("ยืนยัน");
+	   
+	}			
+	</script>
 </body>
 </html>

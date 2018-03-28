@@ -24,11 +24,10 @@
 		return;
 	}	
 	%>
-	<h2>Employee List : </h2>	
-	<form method="POST" action="insert.jsp">
+	<h2>สร้างข้อมูลพนักงาน</h2>	
+	<form method="POST" action="insert.jsp" onsubmit="return buttonConfirm()">
 		<input type="hidden" name="action" value="edit" />
 		
-		<u>Profile</u>
 		<table>
 			<tr>
 				<td>First Name: </td>
@@ -84,7 +83,7 @@
 					for(int i = 0 ; i < rankSize; i++){
 						Map<String, Object> rankMap = rankList.get(i);
 						
-						Integer rankId = (Integer) rankMap.get("ID"); //Integer = int
+						Integer rankId = (Integer) rankMap.get("id"); //Integer = int
 						String rankName = (String) rankMap.get("rankname");
 						%>
 						<option value="<%=rankId%>"><%=rankName%></option>
@@ -119,8 +118,15 @@
 				</td>
 			</tr>	 		 
 		</table>
-		<input type="submit" name="submit" value="สร้างข้อมูลพนักงาน">
+		<input type="submit" name="submit" value="บันทึก">
 		<input type="button" name="BackButton" value="กลับ" onclick="window.location='./main.jsp'">
 	</form>
+	
+	<script>
+	function buttonConfirm() {
+	    return confirm("ยืนยัน");
+	   
+	}			
+	</script>	
 </body>
 </html>

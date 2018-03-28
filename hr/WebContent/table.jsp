@@ -16,14 +16,13 @@
 	if(strUserID == null)
 	{
 		response.sendRedirect("index.jsp");
-	}
-	
+	}	
 	int id = Integer.parseInt(request.getParameter("ID")); 
 	
 	EmployeeServices empServices = new EmployeeServices();
 	Map<String, Object> mapEmp = empServices.getEmployeeData(id);
 	
-	out.println("<h2>" + mapEmp.get("Firstname") + " " + mapEmp.get("Lastname") + "</h2>");
+	out.println("<h2>" + mapEmp.get("firstname") + " " + mapEmp.get("lastname") + "</h2>");
 	%>
 	<a href="work.jsp?ID=<%= id %>&actions=create">+เพิ่มข้อมูล</a>
 	<table border=1>
@@ -33,7 +32,7 @@
 			<th>แก้ใข / ลบ</th>
 		</tr>
 	<%
-	String selectdate = "SELECT DISTINCT month, year FROM time WHERE UID = '"+id+"' ORDER BY year DESC, month DESC ";
+	String selectdate = "SELECT DISTINCT month, year FROM time WHERE uid = '"+id+"' ORDER BY year DESC, month DESC ";
 	List<Map<String, Object>> listdate = WebUtils.query(selectdate);
 	for(int i = 0; i < listdate.size(); i++)
 	{

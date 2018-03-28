@@ -14,14 +14,19 @@
 	if(strUserID == null)
 	{
 		response.sendRedirect("index.jsp");
-	}	
+	}
+	if("logout".equals(request.getParameter("action"))){
+		session.invalidate();
+		response.sendRedirect("index.jsp");
+	}
 
-	String sql = "SELECT u.*, r.rankname FROM  employee_user u left join info_user r on u.Rank = r.ID ORDER BY ID ASC";
+	String sql = "SELECT u.*, r.rankname FROM  employee_user u left join info_user r on u.rank = r.id ORDER BY id ASC";
 	List<Map<String, Object>> list = WebUtils.query(sql);	
 	%>
-	<h2>รายชื่อนักงาน</h2>
+	<h2>รายชื่อพนักงาน</h2>
 	<a href="insert.jsp">+เพิ่มข้อมูลพนักงาน</a>
-	<table border="1">
+	
+	<table border="1">	
 	<tr>
 		<th>ID</th>
 		<th>ชื่อ นามสกุล</th>
@@ -34,20 +39,26 @@
 		Map<String, Object> map = list.get(i);
 	%>	
 	<tr>
-		<td><%= map.get("ID") %></td>
-		<td><%= map.get("Firstname") %>&nbsp;<%= map.get("Lastname") %></td>
+		<td><%= map.get("id") %></td>
+		<td><%= map.get("firstname") %>&nbsp;<%= map.get("lastname") %></td>
 		<td>
 			<%=	map.get("rankname")	%>
 		</td>
 		<td>
-		<a href="table.jsp?ID=<%= map.get("ID") %>">ตารางเวลา</a> /
-		<a href="edit.jsp?ID=<%= map.get("ID") %>">แก้ใข</a> /
-		<a href="delete.jsp?ID=<%= map.get("ID") %>">ลบ</a>
+		<a href="table.jsp?ID=<%= map.get("id") %>">ตารางเวลา</a> /
+		<a href="edit.jsp?ID=<%= map.get("id") %>">แก้ใข</a> /
+		<a href="delete.jsp?ID=<%= map.get("id") %>">ลบ</a>
 		</td>
 	</tr>	
 	<%
    	}		
 	%>
 	</table>
+	
+	<br />
+	<form method="get">
+		<input type="hidden" name="action" value="logout">
+    	<input type="submit" value="Logout"/>
+	</form>
 </body>
 </html>
