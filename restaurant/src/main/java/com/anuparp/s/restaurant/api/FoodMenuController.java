@@ -16,5 +16,11 @@ public class FoodMenuController {
 	@Autowired
     private RestaurantRepository repo;
 	
+	@RequestMapping("/foodmenu")
+	public List<Map<String, Object>> foodtype() {
+		String sql = "SELECT m.*, t.foodtype_name FROM food_menu m left join food_type t on m.foodtype_code = t.foodtype_code ORDER BY m.food_id";
+		List<Map<String, Object>> list = repo.query(sql);
+		return list;
+	}
 
 }
