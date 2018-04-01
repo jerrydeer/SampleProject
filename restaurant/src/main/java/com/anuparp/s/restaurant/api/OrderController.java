@@ -1,5 +1,6 @@
 package com.anuparp.s.restaurant.api;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -89,7 +90,10 @@ public class OrderController {
 		for(int i = 0; i < listOrderDetails.size(); i++) {
 			Map<String, Object> mapDetail = listOrderDetails.get(i);
 			//5.1 get standard_price
-			double standardPrice = 0;
+			String sqlFoodMenu = "SELECT * FROM food_menu WHERE food_id = " + mapDetail.get("food_id");
+			List<Map<String, Object>> listFood = repo.query(sqlFoodMenu);
+			
+			BigDecimal standardPrice = (BigDecimal) listFood.get(0).get("food_price");
 			
 			//5.2 insert
 			mapDetail.put("order_detail_no", newOrderDetailNo);
