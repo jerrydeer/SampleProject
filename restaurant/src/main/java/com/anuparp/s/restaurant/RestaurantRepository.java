@@ -19,7 +19,7 @@ public class RestaurantRepository {
         return query(sql, null);
     }
     
- // Find all customers, thanks Java 8, you can create a custom RowMapper like this : 
+    // Find all customers, thanks Java 8, you can create a custom RowMapper like this : 
     public List<Map<String, Object>> query(String sql, Map<String, Object> mapValue) {
 
         List<Map<String, Object>> result = namedParameterJdbcTemplate.query(sql, mapValue, (rs, row) -> {
