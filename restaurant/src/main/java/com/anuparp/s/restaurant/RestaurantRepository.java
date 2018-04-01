@@ -47,4 +47,8 @@ public class RestaurantRepository {
     	});
     	return result;
     }
+    
+    public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    	this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+    }
 }
