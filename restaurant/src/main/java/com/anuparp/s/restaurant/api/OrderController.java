@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +23,80 @@ public class OrderController {
 	
 	@Autowired
     private RestaurantRepository repo;
+	
+	@Transactional(rollbackFor = Exception.class)
+	@RequestMapping(value="/order/{order_no}", method = RequestMethod.PUT)
+	public int updateOrder(
+			@PathVariable("order_no") int order_no,  
+			@RequestBody Map<String, Object> map) throws Exception{
+		
+		
+		map.put("order_no", order_no);
+		
+		// 1 ดึงข้อมูล order_master จาก DB   ==  05
+		String selectOrderMaster = "SELECT * FROM order_master WHERE order_no = :order_no";
+		List<Map<String, Object>> listOrderMaster = repo.query(selectOrderMaster, map);
+		Map<String, Object> mapOrderMaster = listOrderMaster.get(0);
+		
+		// 2 เช็ค if โต๊ะจาก parameter = DB หรือไม่ ถ้าไม่เท่ากันให้ไป update main_table ด้วย
+		String tableNoParam = (String)map.get("table_no");    // 06
+		String tableNoDb = (String)mapOrderMaster.get("table_no");  // 05
+		
+		if(!tableNoParam.equals(tableNoDb)) {
+			// Logic ย้ายโต๊ะ  
+			// set old order_no = null , status_id = 1 
+			// check main_table
+			// เช็คโต๊ะว่าง
+			// set new order_no = maxOrder , status_id = 2  // !
+			
+			String sql = "SELECT * FROM main_table WHERE table_no = '"+tableNoParam+"' ";
+			List<Map<String, Object>> mainTableList = repo.query(sql, null);
+			Map<String, Object> mainTableMap = mainTableList.get(0);
+			int tableStatus = (int)mainTableMap.get("status_id");
+			
+			if(tableStatus != 1) {
+				throw new Exception ("โต๊ะ " + tableNoParam + " ไม่ว่าง");
+			}
+					
+			String updateMainTablOld = "UPDATE main_table SET status_id = 1, order_no = null WHERE table_no = '"+tableNoDb+"' ";
+			repo.execute(updateMainTablOld, null);
+			
+			String  updateMainTableNew = "UPDATE main_table SET status_id = "+mapOrderMaster.get("order_status")+", order_no = "+order_no+" WHERE table_no = '"+tableNoParam+"' ";
+			repo.execute(updateMainTableNew, null);
+		}
+		
+		// 3 ทำการ execute update
+		Date now = new Date();
+		map.put("update_time", now);
+		String updateOrderMaster = "UPDATE order_master SET table_no = :table_no, customer_no = :customer_no, update_time = :update_time WHERE order_no = :order_no ";
+		int resultUpdateOrderMaster = repo.execute(updateOrderMaster, map);
+		
+		return resultUpdateOrderMaster;
+	}
+	
+	@RequestMapping(value="/order/{order_no}", method = RequestMethod.GET)
+	public Map<String, Object> getOrder(@PathVariable("order_no") int order_no) {
+		// สร้างแมพเปล่า
+		Map<String, Object> mapResult = new HashMap();
+		
+		// ดึงข้อมูล order_master 
+		String sqlOrderMaster = "SELECT * FROM order_master WHERE order_no = "+order_no+" ";
+		List<Map<String, Object>> listOrderMaster = repo.query(sqlOrderMaster);
+		Map<String, Object> mapOrderMaster = listOrderMaster.get(0);
+		
+		// นำ order_master มาใส่ใน mapResult
+		mapResult.put("order_master", mapOrderMaster);
+		
+		// ดึงข้อมูล order_detail มาเป็น list
+		String sqlOrderDetails = "SELECT * FROM order_details WHERE order_no = "+order_no+" ";
+		List<Map<String, Object>> listOrderDetails = repo.query(sqlOrderDetails);
+		
+		// นำ list order_detail มาใส่ใน mapResult
+		mapResult.put("order_details", listOrderDetails);
+		
+		// return mapResult ที่สร้างไว้แต่แรก
+		return mapResult;
+	}
 	
 	@Transactional(rollbackFor = Exception.class)
 	@RequestMapping(value="/order", method = RequestMethod.POST)

@@ -49,7 +49,7 @@ public class FoodMenuController {
 	
 	@RequestMapping(value="/foodmenu/{food_id}", method = RequestMethod.PUT)
 	public int updateFoodmenu(
-			@PathVariable("food_id") String foodId,  
+			@PathVariable("food_id") int foodId,  
 			@RequestBody Map<String, Object> map) {
 		
 		map.put("food_id", foodId);
