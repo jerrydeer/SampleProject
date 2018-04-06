@@ -18,14 +18,28 @@ public class HomeController {
 	@Autowired
     private RestaurantRepository repo;
 	
-	@RequestMapping("/home")
+	@RequestMapping("/table")
 	public List<Map<String, Object>> home() {
 		
-		String sql = "SELECT m.*, c.status_name FROM main_table m left join const_statusname c on m.status_id = c.status_id ORDER BY m.table_no";		
+		String sql = "SELECT m.*, c.status_name FROM main_table m left join const_status_table c on m.status_id = c.status_id ORDER BY m.table_no";		
 		List<Map<String, Object>> list = repo.query(sql);
 		return list;
 	}
+
+	@RequestMapping(value="/home")
+	public List<Map<String, Object>> homeMenu() {
+		
+		String sqlOrder = "SELECT o.actual_price, f.food_name, m.table_no"
+				+ " FROM order_details o"
+				+ " left join food_menu f on o.food_id = f.food_id"
+				+ " left join order_master m on o.order_no = m.order_no"
+				+ "  WHERE o.order_status = 2";
+		List<Map<String, Object>> listOrder = repo.query(sqlOrder);
+		
+		return listOrder;
+	}
 	
+	//////////////////////////////////////////////////////////////////////////////////////////
 	@RequestMapping("/home-hard-code")
 	public List<Map<String, Object>> homeHardCode() {
 		
